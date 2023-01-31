@@ -1,0 +1,21 @@
+header {
+  height: 100vh;
+  box-shadow: inset 0px 0px 20px black;
+  min-height: 250px;
+  background-size: cover;
+  background-image: url("./../public/home.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+#home {
+  margin-left: auto;
+  margin-right: auto;
+}
+h3 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 200px; /* some width */
+}
