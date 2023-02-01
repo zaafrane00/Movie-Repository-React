@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 function Movie() {
   const { id } = useParams();
@@ -14,15 +15,11 @@ function Movie() {
   let url = api + "3/movie/" + id + "" + API_key;
 
   useEffect(() => {
-    console.log("object");
-  }, []);
-
-  useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data);
+          //  console.log(data);
           setMovie(data);
           setIsLoaded(true);
         },
@@ -61,6 +58,33 @@ function Movie() {
       return num + unitname;
     }
   };
+  var myCart = {
+    movies: [],
+  };
+
+  const addToWatchedList = (data) => {
+    if (JSON.parse(localStorage.getItem("myCart") === null)) {
+      myCart.movies.push(data.id);
+      localStorage.setItem("myCart", JSON.stringify(myCart));
+    } else {
+      console.log(myCart.movies.indexOf(data.id) < 0);
+      console.log(typeof JSON.parse(localStorage.getItem("myCart")?.movies));
+
+      if (myCart.movies.indexOf(data.id) < 0) {
+        //    myCart.movies = JSON.parse(localStorage.getItem("myCart")?.movies);
+        myCart.movies.push(...JSON.parse(localStorage.getItem("myCart")?.movies));
+
+        myCart.movies.push(data.id);
+        localStorage.clear();
+        localStorage.setItem("myCart", JSON.stringify(myCart));
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   myCart.movies = localStorage.getItem("myCart");
+  //   console.log(myCart.movies);
+  // }, []);
 
   const styles = {
     container: {
@@ -146,6 +170,10 @@ function Movie() {
                 })}
               </tr>
             </table>
+            <br />
+            <Button variant="primary" onClick={() => addToWatchedList(Movie)}>
+              Add to Watched List
+            </Button>{" "}
           </Col>
           <Col>
             <img
